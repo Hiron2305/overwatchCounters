@@ -1,19 +1,21 @@
-roles = {"Tank": ["Roadhog", "Wrecking Ball", "D.Va", "Winston", "Sigma", "Orisa", "Zarya", "Reinhardt"],
+roles = {"Tank": ["Roadhog", "Wrecking_Ball", "D.Va", "Winston", "Sigma", "Orisa", "Zarya", "Reinhardt"],
          "DD": ["Hanzo", "Cassidy", "Reaper", "Echo", "Ashe", "Genji", "Widowmaker", "Doomfist",
                 "Tracer", "Solider_76", "Junkrat", "Mei", "Pharah", "Torbjorn", "Sombra", "Symmetra", "Bastion"],
          "Healer": ["Moira", "Baptiste", "Lucio", "Mercy", "Ana", "Zenyatta", "Brigitte"]}
 print("List of character: ")
 for key, value in roles.items():
     print(key, ':', value)
-
+print(" ")
+print("Version for 35'th season of Competitive mode")
+print(" ")
 first_tank = input("First tank: ")
 second_tank = input("Second tank: ")
 first_dd = input("First damage dealer: ")
 second_dd = input("Second damage dealer:  ")
 first_healer = input("First healer: ")
 second_healer = input("Second healer: ")
+print(" ")
 
-# "": ["","",""],
 first_enemy = {"Bastion": ["Genji", "Widowmaker", "Hanzo"],
                "D.Va": ["Mei", "Junkrat", "Reaper"],
                "Genji": ["Mei", "Winston", "Zarya"],
@@ -33,7 +35,19 @@ first_enemy = {"Bastion": ["Genji", "Widowmaker", "Hanzo"],
                "Tracer": ["Cassidy", "Roadhog", "Pharah"],
                "Widowmaker": ["Genji", "D.Va", "Winston"],
                "Zarya": ["Pharah", "Reaper", "Mei"],
-               "Zenyatta": ["Widowmaker", "Reaper", "Genji"]}
+               "Zenyatta": ["Widowmaker", "Reaper", "Genji"],
+               "Sigma": ["D.Va","Doomfist","Mei"],
+               "Wrecking_Ball": ["Ana","Bastion","Brigitte"],
+               "Winston": ["D.Va","Bastion","Reaper"],
+               "Orisa": ["Genji","Hanzo","Moira"],
+               "Echo": ["Cassidy","Solider_76","Widowmaker"],
+               "Ashe": ["Doomfist","D.Va","Genji"],
+               "Doomfist": ["Cassidy","Orisa","Pharah"],
+               "Sombra": ["Hanzo","Junkrat","Cassidy"],
+               "Moira": ["Ana","Baptiste","D.Va"],
+               "Baptiste": ["Ana","Ashe","Bastion"],
+               "Ana": ["Doomfist","D.Va","Genji"],
+               "Brigitte": ["Junkrat","Pharah","Reaper"]}
 
 res_roles = {"Tank": [],
              "DD": [],
@@ -75,34 +89,49 @@ list_for_max_Tank = list()
 for T_count in res_roles["Tank"]:
     list_for_max_Tank.append(T_count[1])
 if len(list_for_max_Tank) >= 2:
-    for T_true_ret in res_roles["Tank"]:
-        if T_true_ret[1] == max(list_for_max_Tank):
-            print("Tank: ", T_true_ret[0])
-            list_for_max_Tank.remove(max(list_for_max_Tank))
+    for p in range(2):
+        for T_true_ret in res_roles["Tank"]:
+            if T_true_ret[1] == max(list_for_max_Tank, default=0):
+                print("Tank: ", T_true_ret[0])
+                list_for_max_Tank.remove(max(list_for_max_Tank))
 else:
-    for T_true_ret in res_roles["Tank"]:
-        print("Tank: ", T_true_ret[0], "+ Everyone")
-
+    if len(res_roles["Tank"]) == 0:
+        Save_pack_for_Tank = [["Reinhardt", 1], ["Roadhog", 1]]
+        res_roles["Tank"].extend(Save_pack_for_Tank)
+        for T_true_ret in res_roles["Tank"]:
+            print("Tank: ", T_true_ret[0])
+    else:
+        for T_true_ret in res_roles["Tank"]:
+            print("Tank: ", T_true_ret[0], "+ Everyone")
+print(" ")
 for DD_count in res_roles["DD"]:
     list_for_max_DD.append(DD_count[1])
 if len(list_for_max_DD) >= 2:
-    for D_true_ret in res_roles["DD"]:
-        if D_true_ret[1] == max(list_for_max_DD):
-            print(D_true_ret[0])
-            list_for_max_DD.remove(max(list_for_max_DD))
+    for p in range(2):
+        for D_true_ret in res_roles["DD"]:
+            if D_true_ret[1] == max(list_for_max_DD, default=0):
+                print("Damage dealer: ", D_true_ret[0])
+                list_for_max_DD.remove(max(list_for_max_DD))
 else:
     for D_true_ret in res_roles["DD"]:
-        print(D_true_ret[0], "+ Everyone")
-
+        print("Damage dealers: ", D_true_ret[0], "+ Everyone")
+print(" ")
 for H_count in res_roles["Healer"]:
     list_for_max_Healer.append(H_count[1])
+
 if len(list_for_max_Healer) >= 2:
             for H_true_ret in res_roles["Healer"]:
                 if H_true_ret[1] == max(list_for_max_Healer):
-                    print(H_true_ret[0])
+                    print("Healer: ", H_true_ret[0])
                     list_for_max_Healer.remove(max(list_for_max_Healer))
 else:
-    for H_true_ret in res_roles["Healer"]:
-        print(H_true_ret[0], "+ Everyone")
-
-print(res_roles)
+    if len(res_roles["Healer"]) == 0:
+        Save_pack_for_healler = [["Mercy", 1], ["Moira", 1]]
+        res_roles["Healer"].extend(Save_pack_for_healler)
+        for H_true_ret in res_roles["Healer"]:
+            print("Healers: ", H_true_ret[0])
+    else:
+        for H_true_ret in res_roles["Healer"]:
+            print("Healers: ", H_true_ret[0], "+ Everyone")
+print(" ")
+print("The position of the character in the class line determines its relevance.")
