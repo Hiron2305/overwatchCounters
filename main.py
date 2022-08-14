@@ -1,6 +1,6 @@
 from tkinter import *
 from PIL import ImageTk
-
+from PIL import Image
 roles = {"Tank": ["Roadhog", "Wrecking_Ball", "D.Va", "Winston", "Sigma", "Orisa", "Zarya", "Reinhardt"],
          "DD": ["Hanzo", "Cassidy", "Reaper", "Echo", "Ashe", "Genji", "Widowmaker", "Doomfist",
                 "Tracer", "Solider_76", "Junkrat", "Mei", "Pharah", "Torbjorn", "Sombra", "Symmetra", "Bastion"],
@@ -415,10 +415,10 @@ else:
         Save_pack_for_Tank = [["Reinhardt", 1], ["Roadhog", 1]]
         res_roles["Tank"].extend(Save_pack_for_Tank)
         for T_true_ret in res_roles["Tank"]:
-            t_res_2 = "Tank: ", T_true_ret[0]
+            t_res_2.append(T_true_ret[0])
     else:
         for T_true_ret in res_roles["Tank"]:
-            t_res_2 = "Tank: ", T_true_ret[0], "+ Everyone"
+            t_res_2 = (T_true_ret[0], "+ Everyone")
 
 dd_res_2 = list()
 for DD_count in res_roles["DD"]:
@@ -427,32 +427,35 @@ if len(list_for_max_DD) >= 2:
     for p in range(2):
         for D_true_ret in res_roles["DD"]:
             if D_true_ret[1] == max(list_for_max_DD, default=0):
-                dd_res_2.append(D_true_ret[0])  # "Damage dealer: ", D_true_ret[0]
+                dd_res_2.append(D_true_ret[0])
                 list_for_max_DD.remove(max(list_for_max_DD))
 else:
     for D_true_ret in res_roles["DD"]:
-        dd_res_2 = "Damage dealers: ", D_true_ret[0], "+ Everyone"
+        dd_res_2 = (D_true_ret[0], "+ Everyone")
 
 for H_count in res_roles["Healer"]:
     list_for_max_Healer.append(H_count[1])
 
+h_res_2 = list()
 if len(list_for_max_Healer) >= 2:
     for H_true_ret in res_roles["Healer"]:
         if H_true_ret[1] == max(list_for_max_Healer):
-            heal_res_2 = ("Healer: ", H_true_ret[0])
+            h_res_2.append(H_true_ret[0])
             list_for_max_Healer.remove(max(list_for_max_Healer))
 else:
     if len(res_roles["Healer"]) == 0:
         Save_pack_for_healler = [["Mercy", 1], ["Moira", 1]]
         res_roles["Healer"].extend(Save_pack_for_healler)
         for H_true_ret in res_roles["Healer"]:
-            heal_res_2 = ("Healers: ", H_true_ret[0])
+            h_res_2.append(H_true_ret[0])
     else:
         for H_true_ret in res_roles["Healer"]:
-            heal_res_2 = ("Healers:", H_true_ret[0], "+ Everyone")
-sss_heal = "".join(heal_res_2)
-sss_dd = ",".join(dd_res_2)
-sss_t = ",".join(t_res_2)
+            h_res_2 = (H_true_ret[0], "+ Everyone")
+
+sss_t = ", ".join(t_res_2)
+sss_heal = ", ".join(h_res_2)
+sss_dd = ", ".join(dd_res_2)
+
 okno2 = Tk()
 okno2.geometry("1920x1080")
 okno2.title("OverCounters")
@@ -460,18 +463,41 @@ greeting2 = Label(text="Version for 35'th season of Competitive mode", font="Cou
 greeting2.pack()
 res_label = Label(text="Your team - ", font="Courier 15")
 res_label.place(x=10, y=70)
+pre_res_label_t = Label(text="Tanks: ", font = "Courier 15")
+pre_res_label_t.place(x=120,y=120)
 res_label_t = Label(text=sss_t, font="Courier 15")
-res_label_t.place(x=250, y=70)
+res_label_t.place(x=200, y=120)
 pre_res_label_dd = Label(text = "DD: ",font="Courier 15")
-pre_res_label_dd.place(x=550,y=70)
+pre_res_label_dd.place(x=120,y=150)
 res_label_dd = Label(text=sss_dd, font="Courier 15")
-res_label_dd.place(x=600, y=70)
-res_label_heal = Label(text=(sss_heal), font="Courier 15")
-res_label.place(x=110, y=70)
-okno2.mainloop()
+res_label_dd.place(x=170, y=150)
+pre_res_label_h = Label(text="Healers: ", font="Courier 15")
+pre_res_label_h.place(x=120,y=180)
+res_label_heal = Label(text= sss_heal, font="Courier 15")
+res_label_heal.place(x=225, y=180)
+thx_label = Label(text="Thank you for using my app!", font = "Courier 15")
+thx_label.place(x=1200,y=150)
+guess_label = Label(text="↑ the place in line determines mean the importance of the character in the team.",font="Courier 15")
+guess_label.place(x=120,y=250)
 
-print("The position of the character in the class line determines its relevance.")
-print(res_roles)
-print(t_res_2)
-print(dd_res_2)
-print(heal_res_2)
+file = "Paw.gif"
+info = Image.open(file)
+frames = info.n_frames
+
+im = [PhotoImage(file=file,format=f'gif -index {i}')for i in range(frames)]
+count=0
+def animation(count):
+    im2 = im[count]
+    gif_label.configure(image = im2)
+    count+=1
+    if count == frames:
+        count = 0
+    anim = okno2.after(100,lambda: animation(count))
+
+gif_label = Label(image="")
+
+gif_label.place(x=1250,y=200)
+
+animation(count)
+
+okno2.mainloop()
